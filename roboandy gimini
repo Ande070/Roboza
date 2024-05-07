@@ -1,70 +1,38 @@
-import robocode.*;
+import java.awt.Color;
 
-public class DancingDodger extends AdvancedRobot {
+public class Andy070 extends Robot {
 
-  private int gunHeading = 0;
-  private boolean isDodging = false;
+    public void run() {
+        setBodyColor(getRandomColor());
+        setGunColor(getRandomColor());
+        setRadarColor(getRandomColor());
 
-  public DancingDodger() {
-    setBodyColor(new Color(0, 255, 0)); // Set body color to green
-  }
+        while (true) {
+            setAhead(100);
+            setTurnRight(45);
+            setFire(3);
 
-  public void run() {
-    setTurnGunRight(90); // Turn gun right to scan the battlefield
-    while (true) {
-      if (getRadarHitChance() > 0.1) { // If there's a high chance of getting hit...
-        isDodging = true; // Start dodging
-      }
-      if (isDodging) {
-        setTurnRight(getRandomHeading()); // Dodge by turning randomly
-        setAhead((Math.random() * 200) - 100); // Move forward or backward randomly
-      } else {
-        setTurnRight(30); // Turn slowly to scan the battlefield
-        setAhead(100); // Move forward
-      }
-      scan(); // Scan for enemies
-      if (getGunHeat() == 0) { // If the gun is cool, fire!
-        fire(3);
-      }
-      execute();
-    }
-  }
-
-  public void onScannedRobot(ScannedRobotEvent e) {
-    gunHeading = (int) e.getBearing(); // Lock gun on enemy
-  }
-
-  public void onHitByBullet(HitByBulletEvent e) {
-    isDodging = true; // If hit, start dodging
-  }
-
-  public void onBattleEnded(BattleEndedEvent e) {
-    if (e.getWinner() == this) { // If we won...
-      setTurnRight(180); // Turn around
-      setTurnGunRight(360); // Spin gun
-      setDanceMove("spiral"); // Start dancing (predefined behavior)
-    }
-  }
-
-  private int getRandomHeading() {
-    return (int) (Math.random() * 2) * 180 - 90; // Return a random heading between -90 and 90
-  }
-
-  // Predefined dance move - Spiral
-  public void setDanceMove(String move) {
-    if (move.equalsIgnoreCase("spiral")) {
-      while (true) {
-        for (int i = 0; i < 25; i++) {
-          setTurnRight(10);
-          setAhead(50);
-          execute();
+            setBack(100);
+            setTurnLeft(45);
+            setFire(3);
         }
-        for (int i = 0; i < 25; i++) {
-          setTurnLeft(10);
-          setBack(50);
-          execute();
-        }
-      }
     }
-  }
+
+    public Color getRandomColor() {
+        int color = (int) (Math.random() * 6);
+        switch (color) {
+            case 0:
+                return Color.red;
+            case 1:
+                return Color.blue;
+            case 2:
+                return Color.yellow;
+            case 3:
+                return Color.green;
+            case 4:
+                return Color.magenta;
+            default:
+                return Color.black;
+        }
+    }
 }
