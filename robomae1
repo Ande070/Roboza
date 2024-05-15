@@ -1,50 +1,25 @@
-import math
-import random
-import time
+import robocode.*;
 
-class RoboMarcela:
-    def __init__(self):
-        self.posicao_x = 0
-        self.posicao_y = 0
-        self.angulo = 0
-        self.cor = "rosa pink"
+public class Marcela extends AdvancedRobot {
 
-    def mover_frente(self, distancia):
-        self.posicao_x += distancia * math.cos(math.radians(self.angulo))
-        self.posicao_y += distancia * math.sin(math.radians(self.angulo))
+    public void run() {
+        // Define a cor do robô como vermelho
+        setColors(java.awt.Color.red, java.awt.Color.black, java.awt.Color.red);
 
-    def girar(self, angulo):
-        self.angulo += angulo
+        while (true) {
+            ahead(100); // Move para frente
+            turnGunRight(360); // Gira a arma em círculo
+            back(100); // Move para trás
+            turnGunRight(360); // Gira a arma em círculo
+        }
+    }
 
-    def atirar(self):
-        print("Marcela atira!")
+    public void onScannedRobot(ScannedRobotEvent e) {
+        fire(1); // Atira com potência 1
+    }
 
-    def detectar_tiros(self):
-        # Simulando detecção de tiros
-        return random.choice([True, False])
-
-    def desviar_tiros(self):
-        print("Marcela desvia dos tiros!")
-
-# Instanciando o robô
-marcela = RoboMarcela()
-
-# Simulando movimentos e ações
-for _ in range(5):
-    print("Posição atual: ({}, {})".format(marcela.posicao_x, marcela.posicao_y))
-    print("Ângulo atual: {} graus".format(marcela.angulo))
-    
-    # Simulando movimento
-    marcela.mover_frente(10)
-    
-    # Simulando giro
-    marcela.girar(45)
-    
-    # Simulando detecção e esquiva de tiros
-    if marcela.detectar_tiros():
-        marcela.desviar_tiros()
-    else:
-        marcela.atirar()
-    
-    print("--------------------------")
-    time.sleep(1)  # Espera 1 segundo entre cada ação
+    public void onHitByBullet(HitByBulletEvent e) {
+        // Se for atingido por uma bala, gire para tentar desviar
+        turnRight(90);
+    }
+}
