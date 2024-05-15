@@ -1,0 +1,50 @@
+import math
+import random
+import time
+
+class RoboMarcela:
+    def __init__(self):
+        self.posicao_x = 0
+        self.posicao_y = 0
+        self.angulo = 0
+        self.cor = "rosa pink"
+
+    def mover_frente(self, distancia):
+        self.posicao_x += distancia * math.cos(math.radians(self.angulo))
+        self.posicao_y += distancia * math.sin(math.radians(self.angulo))
+
+    def girar(self, angulo):
+        self.angulo += angulo
+
+    def atirar(self):
+        print("Marcela atira!")
+
+    def detectar_tiros(self):
+        # Simulando detecção de tiros
+        return random.choice([True, False])
+
+    def desviar_tiros(self):
+        print("Marcela desvia dos tiros!")
+
+# Instanciando o robô
+marcela = RoboMarcela()
+
+# Simulando movimentos e ações
+for _ in range(5):
+    print("Posição atual: ({}, {})".format(marcela.posicao_x, marcela.posicao_y))
+    print("Ângulo atual: {} graus".format(marcela.angulo))
+    
+    # Simulando movimento
+    marcela.mover_frente(10)
+    
+    # Simulando giro
+    marcela.girar(45)
+    
+    # Simulando detecção e esquiva de tiros
+    if marcela.detectar_tiros():
+        marcela.desviar_tiros()
+    else:
+        marcela.atirar()
+    
+    print("--------------------------")
+    time.sleep(1)  # Espera 1 segundo entre cada ação
